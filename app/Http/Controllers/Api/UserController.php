@@ -4,62 +4,94 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
+   
     /**
-     * Store a newly created resource in storage.
+     * Create user
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  [string] name
+     * @param  [string] email
+     * @param  [string] password
+     * @param  [string] password_confirmation
+     * @return [string] message
      */
-    public function store(Request $request)
+    public function signup(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|confirmed'
+        ]); 
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);        
+        return response()->json([
+            'message' => 'Successfully created user!'
+        ], 201);
     }
-
+  
     /**
-     * Display the specified resource.
+     * Login user and create token
      *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @param  [string] email
+     * @param  [string] password
+     * @param  [boolean] remember_me
+     * @return [string] access_token
+     * @return [string] token_type
+     * @return [string] expires_at
      */
-    public function show(User $user)
+    public function login(Request $request)
     {
-        //
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+            'remember_me' => 'boolean'
+        ]);        
+        $credentials = request(['email', 'password']);
+        if(!Auth::attempt($credentials))
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401); 
+               
+        $user = $request->user();        
+        $tokenResult = $user->createToken($user->name);
+        $token = $tokenResult->token;        
+        if ($request->remember_me)       
+            $token->save();        
+            return response()->json([
+            'access_token' => $tokenResult->accessToken,
+            'token_type' => 'Bearer',
+            'expires_at'=>$tokenResult->token->expires_at
+            ],201);
     }
-
+  
     /**
-     * Update the specified resource in storage.
+     * Logout user (Revoke the token)
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return [string] message
      */
-    public function update(Request $request, User $user)
+    public function logout(Request $request)
     {
-        //
+        $request->user()->token()->revoke();        
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ],201);
     }
-
+  
     /**
-     * Remove the specified resource from storage.
+     * Get the authenticated User
      *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @return [json] user object
      */
-    public function destroy(User $user)
+    public function user(Request $request)
     {
-        //
+        return response()->json([$request->user()],201);
     }
 }
