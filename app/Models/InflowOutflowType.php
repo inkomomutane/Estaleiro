@@ -9,32 +9,29 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use App\User;
 
 /**
- * Class Role
+ * Class InflowOutflowType
  * 
  * @property int $id
  * @property string|null $name
- * @property string|null $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
- * @property Collection|User[] $users
+ * @property Collection|CashInflowOutflow[] $cash_inflow_outflows
  *
  * @package App\Models
  */
-class Role extends Model
+class InflowOutflowType extends Model
 {
-	protected $table = 'roles';
+	protected $table = 'inflow_outflow_types';
 
 	protected $fillable = [
-		'name',
-		'description'
+		'name'
 	];
 
-	public function users()
+	public function cash_inflow_outflows()
 	{
-		return $this->hasMany(User::class);
+		return $this->hasMany(CashInflowOutflow::class);
 	}
 }

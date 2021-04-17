@@ -10,35 +10,34 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-
 /**
- * Class Status
+ * Class Payment
  * 
  * @property int $id
  * @property string|null $name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
+ * @property Collection|CashInflowOutflow[] $cash_inflow_outflows
  * @property Collection|Invoice[] $invoices
- * @property Collection|Project[] $projects
  *
  * @package App\Models
  */
-class Status extends Model
+class Payment extends Model
 {
-	protected $table = 'statuses';
+	protected $table = 'payments';
 
 	protected $fillable = [
 		'name'
 	];
 
-	public function invoices()
+	public function cash_inflow_outflows()
 	{
-		return $this->hasMany(Invoice::class);
+		return $this->hasMany(CashInflowOutflow::class, 'payment_type');
 	}
 
-	public function projects()
+	public function invoices()
 	{
-		return $this->hasMany(Project::class);
+		return $this->hasMany(Invoice::class, 'payment_type');
 	}
 }

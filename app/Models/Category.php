@@ -15,12 +15,12 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property string $name
- * @property int|null $categories_id
  * @property int|null $level
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property int $category_id
  * 
- * @property Category|null $category
+ * @property Category $category
  * @property Collection|Category[] $categories
  * @property Collection|Material[] $materials
  *
@@ -31,24 +31,24 @@ class Category extends Model
 	protected $table = 'categories';
 
 	protected $casts = [
-		'categories_id' => 'int',
-		'level' => 'int'
+		'level' => 'int',
+		'category_id' => 'int'
 	];
 
 	protected $fillable = [
 		'name',
-		'categories_id',
-		'level'
+		'level',
+		'category_id'
 	];
 
 	public function category()
 	{
-		return $this->belongsTo(Category::class, 'categories_id');
+		return $this->belongsTo(Category::class);
 	}
 
 	public function categories()
 	{
-		return $this->hasMany(Category::class, 'categories_id');
+		return $this->hasMany(Category::class);
 	}
 
 	public function materials()

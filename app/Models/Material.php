@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
+
 /**
  * Class Material
  * 
@@ -19,20 +20,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property float|null $buy_price
  * @property string|null $description
  * @property string|null $short_description
- * @property int|null $intern_material
- * @property int $medida_unity
+ * @property bool|null $intern_material
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property int $category_id
- * @property int $materials_id
  * @property string|null $created_by
  * @property string|null $updated_by
+ * @property int $measure_id
+ * @property int $category_id
  * 
  * @property Category $category
- * @property Material $material
- * @property Medida $medida
- * @property Collection|Material[] $materials
- * @property Collection|Medida[] $medidas
+ * @property Measure $measure
+ * @property Collection|Measure[] $measures
  *
  * @package App\Models
  */
@@ -43,10 +41,9 @@ class Material extends Model
 	protected $casts = [
 		'quantity' => 'float',
 		'buy_price' => 'float',
-		'intern_material' => 'int',
-		'medida_unity' => 'int',
-		'category_id' => 'int',
-		'materials_id' => 'int'
+		'intern_material' => 'bool',
+		'measure_id' => 'int',
+		'category_id' => 'int'
 	];
 
 	protected $fillable = [
@@ -56,11 +53,10 @@ class Material extends Model
 		'description',
 		'short_description',
 		'intern_material',
-		'medida_unity',
-		'category_id',
-		'materials_id',
 		'created_by',
-		'updated_by'
+		'updated_by',
+		'measure_id',
+		'category_id'
 	];
 
 	public function category()
@@ -68,25 +64,15 @@ class Material extends Model
 		return $this->belongsTo(Category::class);
 	}
 
-	public function material()
+	public function measure()
 	{
-		return $this->belongsTo(Material::class, 'materials_id');
+		return $this->belongsTo(Measure::class);
 	}
 
-	public function medida()
+	public function measures()
 	{
-		return $this->belongsTo(Medida::class, 'medida_unity');
-	}
-
-	public function materials()
-	{
-		return $this->hasMany(Material::class, 'materials_id');
-	}
-
-	public function medidas()
-	{
-		return $this->belongsToMany(Medida::class, 'materials_medidas')
-					->withPivot('id', 'price', 'description', 'quantity_by_base_unity', 'lucro')
+		return $this->belongsToMany(Measure::class, 'measures_of_materials', 'materials_id', 'measures_id')
+					->withPivot('price', 'description', 'quantity_by_base_unity', 'profit', 'id', 'discount')
 					->withTimestamps();
 	}
 }

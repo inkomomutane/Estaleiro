@@ -9,23 +9,28 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 /**
  * Class Invoice
  * 
  * @property int $id
- * @property Carbon|null $deprecat_at
+ * @property Carbon|null $depreciated_at
  * @property int|null $cliente_id
  * @property float|null $total_price
  * @property int|null $total_materials
  * @property int|null $processed_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property string|null $client_name
+ * @property string|null $order_code
  * @property int $status_id
+ * @property int $payment_type
  * 
- * @property Status $status
  * @property User|null $user
- * @property Collection|MaterialsMedidasUser[] $materials_medidas_users
+ * @property Payment $payment
+ * @property Status $status
+ * @property Collection|CashInflowOutflow[] $cash_inflow_outflows
  *
  * @package App\Models
  */
@@ -38,34 +43,43 @@ class Invoice extends Model
 		'total_price' => 'float',
 		'total_materials' => 'int',
 		'processed_by' => 'int',
-		'status_id' => 'int'
+		'status_id' => 'int',
+		'payment_type' => 'int'
 	];
 
 	protected $dates = [
-		'deprecat_at'
+		'depreciated_at'
 	];
 
 	protected $fillable = [
-		'deprecat_at',
+		'depreciated_at',
 		'cliente_id',
 		'total_price',
 		'total_materials',
 		'processed_by',
-		'status_id'
+		'client_name',
+		'order_code',
+		'status_id',
+		'payment_type'
 	];
+
+	public function user()
+	{
+		return $this->belongsTo(User::class, 'cliente_id');
+	}
+
+	public function payment()
+	{
+		return $this->belongsTo(Payment::class, 'payment_type');
+	}
 
 	public function status()
 	{
 		return $this->belongsTo(Status::class);
 	}
 
-	public function user()
+	public function cash_inflow_outflows()
 	{
-		return $this->belongsTo(\App\User::class, 'processed_by');
-	}
-
-	public function materials_medidas_users()
-	{
-		return $this->hasMany(MaterialsMedidasUser::class);
+		return $this->hasMany(CashInflowOutflow::class);
 	}
 }
