@@ -1,4 +1,4 @@
-<p align="center"><img src="Estaleiro.jpg" width="800"></p>
+<p align="center"><img src="Estaleiros.jpg" width="800"></p>
 
 ## About Laravel
 
