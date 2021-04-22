@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cashier\Create;
 use App\Http\Requests\Cashier\Update;
+use App\Http\Resources\CashierResource;
 use App\Models\Cashier;
 
 class CashierController extends Controller
@@ -38,7 +39,7 @@ class CashierController extends Controller
      */
     public function show(Cashier $cashier)
     {
-        //
+        return new CashierResource($cashier);
     }
 
     /**

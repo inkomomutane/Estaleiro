@@ -3,17 +3,18 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-
-class Create extends FormRequest
+use App\Http\Requests\ExceptionInterface;
+class Create extends FormRequest 
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
+   // use ExceptionInterface;
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,8 @@ class Create extends FormRequest
     public function rules()
     {
         return [
-            //
+            'email' => 'required|string|email',
+            'password' => 'required|string|min:8',
         ];
     }
 }

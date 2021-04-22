@@ -14,11 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
     Route::post('login', 'Api\UserController@login');
-    Route::post('signup', 'Api\UserController@signup');
+    Route::post('signup', 'Api\UserController@store');
   
     Route::group([
       'middleware' => 'auth:api'
     ], function() {
-        Route::get('logout', 'Api\UserController@logout');
-        Route::get('user', 'Api\UserController@user');
+      Route::resource('cashier','Api\CashierController');
+      Route::post('logout', 'Api\UserController@logout');
+        //Route::get('user', 'Api\UserController@user');
     });

@@ -3,17 +3,18 @@
 namespace App\Http\Requests\MeasuresOfMaterial;
 
 use Illuminate\Foundation\Http\FormRequest;
-
-class Create extends FormRequest
+use App\Http\Requests\ExceptionInterface;
+class Create extends FormRequest 
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
+   // use ExceptionInterface;
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
