@@ -14,6 +14,18 @@ class MeasuresOfMaterialResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'measures'=> $this->measure,
+            'materials' => $this->material,
+            'price'=> $this->price,
+            'description'=> $this->description,
+            'quantity_by_base_unity' => $this->quantity_by_base_unity,
+            'profit' => $this->profit,
+            'discount' => $this->discount,
+            'orders'=> $this->orders,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
     }
 }

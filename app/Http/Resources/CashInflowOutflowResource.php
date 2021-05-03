@@ -14,6 +14,15 @@ class CashInflowOutflowResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id'=> $this->id,
+            'payment'=> $this->payment,
+            'description'=> $this->description,
+            'inflow_outflow_type'=> $this->inflow_outflow_type,
+            'amount'=> $this->amount,
+            'invoice'=> $this->invoice,
+            'created_at'=> $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
     }
 }
