@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Invoice;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Create extends FormRequest
+class Login extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class Create extends FormRequest
     public function rules()
     {
         return [
-            'status_id'=>'required|integer',
-            'payment_type'=>'required|integer'
+            'email' => 'required|string|email',
+            'password' => 'required|string|min:8',
         ];
     }
 }

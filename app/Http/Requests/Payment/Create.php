@@ -11,9 +11,9 @@ class Create extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+   public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class Create extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' =>'required|string|max:191|unique'
         ];
     }
 }

@@ -13,7 +13,7 @@ class Create extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class Create extends FormRequest
     public function rules()
     {
         return [
-            //
+            'payment_type'=>'required|integer',
+            'inflow_outflow_type_id'=>'required|integer',
+            'invoice_id'=>'required|integer'
         ];
     }
 }

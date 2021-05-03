@@ -11,9 +11,9 @@ class Update extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class Update extends FormRequest
     public function rules()
     {
         return [
-            //
+            'payment_type'=>'required|integer',
+            'inflow_outflow_type_id'=>'required|integer',
+            'invoice_id'=>'required|integer'
         ];
     }
 }

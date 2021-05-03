@@ -13,7 +13,7 @@ class Create extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class Create extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' =>'required|string|max:191',
+            'cliente_id' =>'required|integer'
         ];
     }
 }

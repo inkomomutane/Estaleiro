@@ -11,9 +11,9 @@ class Update extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+   public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class Update extends FormRequest
     public function rules()
     {
         return [
-            //
+            'employee_id'=>'required|integer'
         ];
     }
 }

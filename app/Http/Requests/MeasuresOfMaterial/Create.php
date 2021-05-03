@@ -25,7 +25,8 @@ class Create extends FormRequest
     public function rules()
     {
         return [
-            //
+            'measures_id'=>'required|integer',
+            'materials_id'=>'required|integer'
         ];
     }
 }

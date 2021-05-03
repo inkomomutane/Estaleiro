@@ -13,7 +13,7 @@ class Create extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class Create extends FormRequest
     public function rules()
     {
         return [
-            //
+            'measure_id'=>'required|integer',
+            'category_id'=>'required|integer'
         ];
     }
 }

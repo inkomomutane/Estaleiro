@@ -13,7 +13,7 @@ class Update extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class Update extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' =>'required|string|max:191|unique',
+            'category_id'=>'required|integer'
         ];
     }
 }

@@ -3,15 +3,14 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Requests\ExceptionInterface;
-class Create extends FormRequest 
+
+class Register extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-   // use ExceptionInterface;
     public function authorize()
     {
         return true;
@@ -25,8 +24,10 @@ class Create extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|string|email',
-            'password' => 'required|string|min:8',
+            'name'=>'required|string|max:191',
+            'email' => 'required|string|email|unique',
+            'password' => 'required|string|min:8|confirmed',
+            'role_id' => 'required|integer'
         ];
     }
 }
