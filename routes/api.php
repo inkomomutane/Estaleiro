@@ -14,12 +14,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
     Route::post('login', 'Api\UserController@login');
-    Route::post('signup', 'Api\UserController@store');
+    Route::post('signup', 'Api\UserController@register');
   
     Route::group([
       'middleware' => 'auth:api'
     ], function() {
-      Route::resource('cashier','Api\CashierController');
       Route::post('logout', 'Api\UserController@logout');
+      Route::resource('cashier','Api\CashierController');
+      Route::resource('cashInflowOutflow','Api\CashierController');
+      Route::resource('category','Api\CategoryController');
+      Route::Resource('inflowOutflowType','Api\InflowOutflowTypeController');
+      Route::resource('invoice','Api\InvoiceController');
+      Route::resource('material','Api\MaterialController');
+      Route::resource('measure','Api\MeasureController');
+      Route::resource('measuresOfmaterial','Api\MeasuresOfMaterialController');
+      Route::resource('order','Api\OrderController');
+      Route::resource('payment','Api\PaymentController');
+      Route::resource('project','Api\ProjectController');
+      Route::resource('role','Api\RoleController');
+      Route::resource('status','Api\StatusController');
         //Route::get('user', 'Api\UserController@user');
     });
