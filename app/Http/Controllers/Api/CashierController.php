@@ -17,7 +17,7 @@ class CashierController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**

@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Status\Create;
 use App\Http\Requests\Status\Update;
+use App\Http\Resources\StatusResource;
 use App\Models\Status;
-use Illuminate\Http\Request;
-
 class StatusController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +17,7 @@ class StatusController extends Controller
      */
     public function index()
     {
-        //
+        return StatusResource::collection(Status::all());
     }
 
     /**
@@ -28,7 +28,14 @@ class StatusController extends Controller
      */
     public function store(Create $request)
     {
-        //
+        try {
+            return response()->json([Status::create($request->all()),'status'=>201]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th,
+                'status' =>401
+            ]);
+        }
     }
 
     /**
@@ -39,7 +46,7 @@ class StatusController extends Controller
      */
     public function show(Status $status)
     {
-        //
+        return new  StatusResource($status);
     }
 
     /**
@@ -51,7 +58,26 @@ class StatusController extends Controller
      */
     public function update(Update $request, Status $status)
     {
-        //
+        try {
+            if( $status->update($request->all())){
+                return response()->json([
+                'data' => new StatusResource($status),
+                'message' => 'Status updated success.',
+                'status'=>201
+        ]);
+            }else{
+                return response()->json([
+            'message' => 'Error updating.',
+            'status'=>401
+        ]);
+            }
+        } catch (\Throwable $th) {
+               return response()->json([
+            'message' => 'Error updating',
+            'status'=>401]);
+        }
+
+        
     }
 
     /**
@@ -62,6 +88,21 @@ class StatusController extends Controller
      */
     public function destroy(Status $status)
     {
-        //
+        try {
+            if (count($status->invoices) > 0 || count($status->projects) > 0) {
+               return response()->json([
+                'message' => 'Can not delete status, its used in other place.',
+                'status'=>401]);
+            }else{
+                $status->delete();
+                return response()->json([
+                'message' => 'Delete success.',
+                'status'=>201]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+            'message' => 'Error deleting.',
+            'status'=>401]);
+        }
     }
 }

@@ -33,5 +33,6 @@ use Illuminate\Support\Facades\Route;
       Route::resource('project','Api\ProjectController');
       Route::resource('role','Api\RoleController');
       Route::resource('status','Api\StatusController');
-        //Route::get('user', 'Api\UserController@user');
+      Route::get('user', 'Api\UserController@user');
+      Route::get('users', 'Api\UserController@users');
     });

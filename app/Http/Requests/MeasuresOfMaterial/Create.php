@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\ExceptionInterface;
 class Create extends FormRequest 
 {
+    use ExceptionInterface;
     /**
      * Determine if the user is authorized to make this request.
      *

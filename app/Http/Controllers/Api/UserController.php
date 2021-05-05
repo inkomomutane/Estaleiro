@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
+
+
+    public function users()
+    {
+        return UserResource::collection(User::all());
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -50,7 +58,7 @@ class UserController extends Controller
      * @param  \App\Http\Requests\User\Create  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Create $request)
+    public function store(Request $request)
     {
         return response()->json($request);
     }

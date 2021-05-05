@@ -25,9 +25,9 @@ class Update extends FormRequest
     {
         return [
             'name'=>'required|string|max:191',
-            'email' => 'string|email|unique',
+            'email' => 'string|email|unique:users',
             'password' => 'string|min:8|confirmed',
             'role_id' => 'required|integer'
-        ];
+    ];
     }
 }

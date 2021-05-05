@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests\Payment;
 
+use App\Http\Requests\ExceptionInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
 class Create extends FormRequest
 {
+     use ExceptionInterface;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,7 +26,7 @@ class Create extends FormRequest
     public function rules()
     {
         return [
-            'name' =>'required|string|max:191|unique'
+            'name' =>'required|string|max:191|unique:payments'
         ];
     }
 }

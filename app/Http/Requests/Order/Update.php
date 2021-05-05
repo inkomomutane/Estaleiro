@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests\Order;
 
+use App\Http\Requests\ExceptionInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
 class Update extends FormRequest
 {
+    use ExceptionInterface;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,7 +26,7 @@ class Update extends FormRequest
     public function rules()
     {
         return [
-            //
+            'material' =>'required|integer'
         ];
     }
 }

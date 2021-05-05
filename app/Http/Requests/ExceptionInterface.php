@@ -10,7 +10,7 @@ trait ExceptionInterface
       response()->json([
         'status' => 401,
         'messages' => $validator->errors()
-      ], 200)
+      ], 401)
     ); 
 }
 }
