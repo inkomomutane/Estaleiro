@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CahsInflowOutflow\Create;
 use App\Http\Requests\CahsInflowOutflow\Update;
+use App\Http\Resources\CashInflowOutflowResource;
 use App\Models\CashInflowOutflow;
 
 class CashInflowOutflowController extends Controller
@@ -16,7 +17,7 @@ class CashInflowOutflowController extends Controller
      */
     public function index()
     {
-        //
+        return CashInflowOutflowResource::collection(CashInflowOutflow::all());
     }
 
     /**
@@ -27,7 +28,14 @@ class CashInflowOutflowController extends Controller
      */
     public function store(Create $request)
     {
-        //
+         try {
+            return response()->json(['Cash inflow outflow'=>CashInflowOutflow::create($request->all()),'status'=>201]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th,
+                'status' =>401
+            ]);
+        }
     }
 
     /**
@@ -38,7 +46,7 @@ class CashInflowOutflowController extends Controller
      */
     public function show(CashInflowOutflow $cashInflowOutflow)
     {
-        //
+        return new  CashInflowOutflowResource($cashInflowOutflow);
     }
 
     /**
@@ -50,7 +58,24 @@ class CashInflowOutflowController extends Controller
      */
     public function update(Update $request, CashInflowOutflow $cashInflowOutflow)
     {
-        //
+        try {
+            if( $cashInflowOutflow->update($request->all())){
+                return response()->json([
+                'data' => new CashInflowOutflowResource($cashInflowOutflow),
+                'message' => 'cash inflow outflow updated success.',
+                'status'=>201
+        ]);
+            }else{
+                return response()->json([
+            'message' => 'Error updating.',
+            'status'=>401
+        ]);
+            }
+        } catch (\Throwable $th) {
+               return response()->json([
+            'message' => 'Error updating',
+            'status'=>401]);
+        }
     }
 
     /**
@@ -61,6 +86,15 @@ class CashInflowOutflowController extends Controller
      */
     public function destroy(CashInflowOutflow $cashInflowOutflow)
     {
-        //
+        try {
+                $cashInflowOutflow->delete();
+                return response()->json([
+                'message' => 'Delete success.',
+                'status'=>201]);
+        } catch (\Throwable $th) {
+            return response()->json([
+            'message' => 'Error deleting.',
+            'status'=>401]);
+        }
     }
 }

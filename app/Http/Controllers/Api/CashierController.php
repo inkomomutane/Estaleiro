@@ -17,7 +17,7 @@ class CashierController extends Controller
      */
     public function index()
     {
-        
+        return CashierResource::collection(Cashier::all());
     }
 
     /**
@@ -28,7 +28,14 @@ class CashierController extends Controller
      */
     public function store(Create $request)
     {
-        //
+          try {
+            return response()->json(['Cashier'=>Cashier::create($request->all()),'status'=>201]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th,
+                'status' =>401
+            ]);
+        }
     }
 
     /**
@@ -51,7 +58,24 @@ class CashierController extends Controller
      */
     public function update(Update $request, Cashier $cashier)
     {
-        //
+        try {
+            if( $cashier->update($request->all())){
+                return response()->json([
+                'data' => new CashierResource($cashier),
+                'message' => 'cashier updated success.',
+                'status'=>201
+        ]);
+            }else{
+                return response()->json([
+            'message' => 'Error updating.',
+            'status'=>401
+        ]);
+            }
+        } catch (\Throwable $th) {
+               return response()->json([
+            'message' => 'Error updating',
+            'status'=>401]);
+        }
     }
 
     /**
@@ -62,6 +86,15 @@ class CashierController extends Controller
      */
     public function destroy(Cashier $cashier)
     {
-        //
+         try {
+                $cashier->delete();
+                return response()->json([
+                'message' => 'Delete success.',
+                'status'=>201]);
+        } catch (\Throwable $th) {
+            return response()->json([
+            'message' => 'Error deleting.',
+            'status'=>401]);
+        }
     }
 }
