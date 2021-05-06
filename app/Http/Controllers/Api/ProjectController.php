@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\Create;
 use App\Http\Requests\Project\Update;
+use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        return ProjectResource::collection(Project::all());
     }
 
     /**
@@ -28,7 +29,14 @@ class ProjectController extends Controller
      */
     public function store(Create $request)
     {
-        //
+         try {
+            return response()->json(['project'=>Project::create($request->all()),'status'=>201]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th,
+                'status' =>401
+            ]);
+        }
     }
 
     /**
@@ -39,7 +47,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return new  ProjectResource($project);
     }
 
     /**
@@ -51,7 +59,24 @@ class ProjectController extends Controller
      */
     public function update(Update $request, Project $project)
     {
-        //
+        try {
+            if( $project->update($request->all())){
+                return response()->json([
+                'data' => new ProjectResource($project),
+                'message' => 'Project updated success.',
+                'status'=>201
+        ]);
+            }else{
+                return response()->json([
+            'message' => 'Error updating.',
+            'status'=>401
+        ]);
+            }
+        } catch (\Throwable $th) {
+               return response()->json([
+            'message' => 'Error updating',
+            'status'=>401]);
+        }
     }
 
     /**
@@ -62,6 +87,16 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        try {
+                $project->delete();
+                return response()->json([
+                'message' => 'Delete success.',
+                'status'=>201]);
+            
+        } catch (\Throwable $th) {
+            return response()->json([
+            'message' => 'Error deleting.',
+            'status'=>401]);
+        }
     }
 }

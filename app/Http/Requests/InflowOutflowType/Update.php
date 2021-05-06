@@ -26,7 +26,7 @@ class Update extends FormRequest
     public function rules()
     {
         return [
-            'name' =>'required|string|max:191|unique'
+            'name' =>'required|string|max:191|unique:inflow_outflow_types'
         ];
     }
 }

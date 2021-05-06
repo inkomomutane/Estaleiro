@@ -30,7 +30,7 @@ class RoleController extends Controller
     public function store(Create $request)
     {
          try {
-            return response()->json([Role::create($request->all()),'role'=>201]);
+            return response()->json(['role'=>Role::create($request->all()),'status'=>201]);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => $th,

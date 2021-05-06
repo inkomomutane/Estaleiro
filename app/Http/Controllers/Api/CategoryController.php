@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\Create;
 use App\Http\Requests\Category\Update;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 
 class CategoryController extends Controller
@@ -16,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return CategoryResource::collection(Category::all());
     }
 
     /**
@@ -27,7 +28,14 @@ class CategoryController extends Controller
      */
     public function store(Create $request)
     {
-        //
+        try {
+            return response()->json(['category'=>Category::create($request->all()),'status'=>201]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th,
+                'status' =>401
+            ]);
+        }
     }
 
     /**
@@ -38,7 +46,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return new  CategoryResource($category);
     }
 
     /**
@@ -50,7 +58,24 @@ class CategoryController extends Controller
      */
     public function update(Update $request, Category $category)
     {
-        //
+         try {
+            if( $category->update($request->all())){
+                return response()->json([
+                'data' => new CategoryResource($category),
+                'message' => 'Category updated success.',
+                'status'=>201
+        ]);
+            }else{
+                return response()->json([
+            'message' => 'Error updating.',
+            'status'=>401
+        ]);
+            }
+        } catch (\Throwable $th) {
+               return response()->json([
+            'message' => 'Error updating',
+            'status'=>401]);
+        }
     }
 
     /**
@@ -61,6 +86,21 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+         try {
+            if (count($category->materials) > 0 || count($category->categories) > 0) {
+               return response()->json([
+                'message' => 'Can not delete category, its used in other place.',
+                'status'=>401]);
+            }else{
+                $category->delete();
+                return response()->json([
+                'message' => 'Delete success.',
+                'status'=>201]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+            'message' => 'Error deleting.',
+            'status'=>401]);
+        }
     }
 }

@@ -26,7 +26,7 @@ class Update extends FormRequest
     public function rules()
     {
         return [
-            'name' =>'required|string|max:191|unique|roles'
+            'name' =>'required|string|max:191|unique:roles'
         ];
     }
 }
