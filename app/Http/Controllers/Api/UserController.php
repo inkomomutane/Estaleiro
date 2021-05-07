@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Create;
+use App\Http\Requests\User\Register;
 use App\Http\Requests\User\Update;
 use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-//use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -55,12 +56,30 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\User\Create  $request
+     * @param  \App\Http\Requests\User\Register  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function register(Register $request)
     {
-        return response()->json($request);
+        try {
+        $request['password'] = Hash::make($request->password);
+        $user = User::create($request->all());        
+        $tokenResult = $user->createToken($user->name);
+        $token = $tokenResult->token;        
+        if ($request->remember_me)       
+            $token->save();        
+            return response()->json([
+            'user'=> new UserResource($user),
+            'access_token' => $tokenResult->accessToken,
+            'token_type' => 'Bearer',
+            'expires_at'=>$tokenResult->token->expires_at
+            ],201);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401); 
+        }
+        
     }
 
     /**
@@ -71,7 +90,11 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return new  UserResource($user);
+    }
+    public function user(Request $request)
+    {
+        return new  UserResource($request->user());
     }
 
     /**
