@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\Message;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Payment\Create;
 use App\Http\Requests\Payment\Update;
@@ -18,7 +19,10 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        return PaymentResource::collection(Payment::all());
+
+        $data =  PaymentResource::collection(Payment::all());
+        broadcast(new Message('Dark'));
+        return $data;
     }
 
     /**

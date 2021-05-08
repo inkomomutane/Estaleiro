@@ -15,6 +15,7 @@ class CreateMeasuresOfMaterialsTable extends Migration
     {
         Schema::create('measures_of_materials', function (Blueprint $table) {
             $table->engine = 'InnoDB';
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('measures_id')->index('measures_idx');
             $table->unsignedBigInteger('materials_id')->index('materials_idx');
             $table->double('price')->nullable();
@@ -22,7 +23,6 @@ class CreateMeasuresOfMaterialsTable extends Migration
             $table->double('quantity_by_base_unity')->nullable();
             $table->double('profit')->nullable();
             $table->timestamps();
-            $table->bigIncrements('id');
             $table->double('discount')->nullable();
         });
     }

@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::resource('measuresOfMaterial','Api\MeasuresOfMaterialController');
+   Route::resource('measure','Api\MeasureController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

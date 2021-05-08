@@ -21,13 +21,13 @@ use Illuminate\Support\Facades\Route;
     ], function() {
       Route::post('logout', 'Api\UserController@logout');
       Route::resource('cashier','Api\CashierController');
-      Route::resource('cashInflowOutflow','Api\CashierController');
+      Route::resource('cashInflowOutflow','Api\CashInflowOutflowController');
       Route::resource('category','Api\CategoryController');
       Route::Resource('inflowOutflowType','Api\InflowOutflowTypeController');
       Route::resource('invoice','Api\InvoiceController');
       Route::resource('material','Api\MaterialController');
       Route::resource('measure','Api\MeasureController');
-      Route::resource('measuresOfmaterial','Api\MeasuresOfMaterialController');
+      Route::resource('measuresOfMaterials','Api\MeasuresOfMaterialController');
       Route::resource('order','Api\OrderController');
       Route::resource('payment','Api\PaymentController');
       Route::resource('project','Api\ProjectController');

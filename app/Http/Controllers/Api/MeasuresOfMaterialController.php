@@ -47,6 +47,9 @@ class MeasuresOfMaterialController extends Controller
      */
     public function show(MeasuresOfMaterial $measuresOfMaterial)
     {
+       // dd($measuresOfMaterial);
+        //return $measuresOfMaterial;
+        //return MeasuresOfMaterial::Where('id',$measuresOfMaterial)->get();
          return new MeasuresOfMaterialResource($measuresOfMaterial);
     }
 

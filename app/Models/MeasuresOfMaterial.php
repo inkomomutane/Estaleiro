@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class MeasuresOfMaterial
  * 
+ * @property int $id
  * @property int $measures_id
  * @property int $materials_id
  * @property float|null $price
@@ -21,7 +22,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property float|null $profit
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property int $id
  * @property float|null $discount
  * 
  * @property Material $material

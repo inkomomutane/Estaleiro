@@ -25,7 +25,7 @@ class MaterialResource extends JsonResource
             'updated_by' => $this->updated_by,
             'measure' => $this->measure,
             'category' => $this->category,
-            'measure_by_price'=> $this->measures,
+            'measures'=> $this->measures,
             'created_at' =>$this->created_at,
             'updated_at'=> $this->updated_at,
         ];

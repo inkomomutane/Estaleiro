@@ -16,7 +16,7 @@ class InflowOutflowTypeController extends Controller
      */
     public function index()
     {
-        return InflowOutflowType::collection(InflowOutflowType::all());
+        return InflowOutflowTypeResource::collection(InflowOutflowType::all());
     }
 
     /**
